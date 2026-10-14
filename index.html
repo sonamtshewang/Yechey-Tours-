@@ -1,0 +1,472 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Druk Trails Travel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Figtree:wght@400;500;600&display=swap">
+<style>
+/* Layout: dzong-wall bands — whitewashed sections separated by a maroon kemar stripe; tours in a filterable grid */
+:root{
+  --wall:#f7f6f2; --panel:#ffffff; --ink:#22262b; --muted:#5d6268;
+  --maroon:#8a2430; --maroon-soft:#f3e3e4; --saffron:#d9901c; --saffron-soft:#fbefd9;
+  --pine:#2f5d50; --line:#e2e0d8; --sky:#dfe9ee; --hill:#9fb8ad; --hill2:#5f8a7b;
+  --display:"Marcellus", Georgia, serif; --body:"Figtree", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --wall:#16181b; --panel:#1f2226; --ink:#ecebe6; --muted:#a6aaae;
+  --maroon:#e0717c; --maroon-soft:#3a1d21; --saffron:#f0b04a; --saffron-soft:#3a2c14;
+  --pine:#7cc0aa; --line:#33373c; --sky:#1d2a31; --hill:#2f4a42; --hill2:#3f675a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --wall:#16181b; --panel:#1f2226; --ink:#ecebe6; --muted:#a6aaae;
+  --maroon:#e0717c; --maroon-soft:#3a1d21; --saffron:#f0b04a; --saffron-soft:#3a2c14;
+  --pine:#7cc0aa; --line:#33373c; --sky:#1d2a31; --hill:#2f4a42; --hill2:#3f675a; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--wall);color:var(--ink);font:16px/1.65 var(--body)}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:20px}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0}
+h2{font-size:clamp(1.7rem,3.4vw,2.4rem)}
+.eyebrow{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--maroon);font-weight:600}
+a{color:inherit}
+.btn{display:inline-flex;align-items:center;gap:8px;font:600 .95rem var(--body);padding:.75rem 1.3rem;border-radius:6px;border:1.5px solid var(--maroon);background:var(--maroon);color:var(--wall);cursor:pointer;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--maroon)}
+.btn:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--saffron);outline-offset:2px}
+.kemar{height:10px;background:var(--maroon);border-block:2px solid var(--saffron)}
+section{padding-block:4.5rem}
+/* header */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--wall);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--display);font-size:1.35rem;text-decoration:none}
+.logo svg{width:34px;height:34px}
+.nav{position:relative}
+.nav ul{display:flex;align-items:center;gap:4px;list-style:none;margin:0;padding:0;font-weight:500;font-size:.95rem}
+.nav ul a{display:block;padding:8px 10px;border-radius:6px;text-decoration:none;white-space:nowrap}
+.nav ul a:hover,.nav ul a.active{color:var(--maroon)}
+.nav ul a.btn{color:var(--wall);margin-left:8px;padding:.6rem 1.1rem}
+.nav ul a.btn:hover{color:var(--wall)}
+.menu-toggle{display:none;background:none;border:0;padding:6px;cursor:pointer;color:var(--ink)}
+.menu-toggle span{display:block;width:24px;height:2px;margin:5px 0;background:currentColor;border-radius:2px;transition:transform .25s,opacity .25s}
+.menu-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.menu-toggle.open span:nth-child(2){opacity:0}
+.menu-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media(max-width:1100px){
+  .menu-toggle{display:block}
+  .nav ul{position:absolute;top:100%;left:-20px;right:-20px;flex-direction:column;align-items:stretch;gap:0;background:var(--wall);border-bottom:1px solid var(--line);max-height:0;overflow:hidden;transition:max-height .3s ease}
+  .nav ul.open{max-height:640px}
+  .nav ul a{border-radius:0;border-top:1px solid var(--line);padding:13px 20px}
+  .nav ul a.btn{display:flex;justify-content:center;margin:12px 20px;border-radius:6px}
+}
+@media(prefers-reduced-motion:reduce){.nav ul,.menu-toggle span{transition:none}}
+/* hero */
+.hero{position:relative;background:var(--sky);overflow:hidden;min-height:420px}
+.hero svg.scene{position:absolute;inset:0;display:block;width:100%;height:100%}
+.hero-copy{position:relative;z-index:1;padding-block:clamp(28px,6vw,70px) 90px}
+.hero h1{font-size:clamp(2rem,4.5vw,3.4rem);line-height:1.08;max-width:16ch}
+.hero p{max-width:44ch;color:var(--muted);margin:.8rem 0 1.4rem;font-size:1.05rem}
+.hero-photo{position:absolute;inset:0;width:100%;height:100%;max-width:100%;object-fit:cover}
+.has-photo .hero-text{background:var(--wall);padding:20px 24px;border-radius:10px;max-width:600px}
+.card .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+@media(max-width:640px){.hero{min-height:0}.hero-copy{padding-block:28px 40px}.has-photo .hero-copy{padding-block:140px 40px}.has-photo .hero-text{padding:16px 18px}}
+/* planner bar */
+.planner{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) auto;gap:14px;align-items:end;margin-top:-38px;position:relative}
+.planner label,.form label{display:block;font-size:.78rem;font-weight:600;color:var(--muted);margin-bottom:5px;letter-spacing:.03em}
+input,select,textarea{width:100%;font:inherit;font-size:.95rem;color:var(--ink);background:var(--wall);border:1px solid var(--line);border-radius:6px;padding:.6rem .7rem}
+@media(max-width:820px){.planner{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:20px}.planner .btn{grid-column:1/-1;justify-content:center}}
+/* tours */
+.head-row{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:28px}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font:500 .88rem var(--body);padding:.45rem .95rem;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--wall);border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.card .pic{aspect-ratio:16/10;max-width:100%;position:relative}
+.card .pic svg{width:100%;height:100%;display:block}
+.tag{position:absolute;top:10px;left:10px;font-size:.72rem;font-weight:600;padding:3px 9px;border-radius:4px;background:var(--saffron-soft);color:var(--ink)}
+.card .body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card .route{font-size:.8rem;color:var(--muted)}
+.card h3{font-size:1.3rem}
+.card .meta{display:flex;gap:14px;font-size:.82rem;color:var(--muted);flex-wrap:wrap}
+.card .foot{margin-top:auto;padding-top:12px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.price{font-family:var(--display);font-size:1.35rem;font-variant-numeric:tabular-nums}
+.price small{font:400 .75rem var(--body);color:var(--muted)}
+.card .foot button{font:600 .85rem var(--body);color:var(--maroon);background:none;border:none;cursor:pointer;padding:6px 0}
+/* destinations */
+.dest{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
+.dest div{padding:22px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.dest h3{font-size:1.25rem}
+.dest .alt{font-size:.78rem;color:var(--pine);font-weight:600;font-variant-numeric:tabular-nums}
+.dest p{font-size:.9rem;color:var(--muted);margin:.4rem 0 0}
+/* festivals + info */
+.two{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:28px}
+@media(max-width:820px){.two{grid-template-columns:minmax(0,1fr)}}
+.fest{list-style:none;margin:0;padding:0;background:var(--panel);border:1px solid var(--line);border-radius:10px}
+.fest li{display:grid;grid-template-columns:86px minmax(0,1fr);gap:14px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.fest li:last-child{border-bottom:0}
+.fest .when{font-family:var(--display);color:var(--maroon);font-size:1.05rem;line-height:1.2}
+.fest b{font-weight:600}
+.fest span{display:block;font-size:.85rem;color:var(--muted)}
+.note{font-size:.8rem;color:var(--muted);margin-top:10px}
+.info{background:var(--maroon-soft);border-radius:10px;padding:24px}
+.info h3{font-size:1.4rem;margin-bottom:10px}
+.info ol{margin:0;padding-left:1.2rem;display:grid;gap:8px;font-size:.93rem}
+/* calculator */
+.calc{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-top:18px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;align-items:end}
+.total{font-family:var(--display);font-size:2rem;color:var(--maroon);font-variant-numeric:tabular-nums}
+/* reviews */
+.reviews{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}
+.reviews figure{margin:0;padding:22px;background:var(--panel);border:1px solid var(--line);border-radius:10px;display:flex;flex-direction:column;gap:12px}
+.reviews blockquote{margin:0;font-size:1rem}
+.reviews figcaption{font-size:.85rem;color:var(--muted);margin-top:auto}
+.stars{color:var(--saffron);letter-spacing:2px}
+/* trekking */
+.treks{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px}
+.trek{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:22px;display:flex;flex-direction:column;gap:10px}
+.trek h3{font-size:1.3rem}
+.trek p{margin:0;font-size:.9rem;color:var(--muted)}
+.grade{align-self:flex-start;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:99px;background:var(--saffron-soft);color:var(--ink)}
+.grade.hard{background:var(--maroon-soft)}
+.trek dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;margin:auto 0 0;padding-top:12px;border-top:1px solid var(--line);font-size:.85rem}
+.trek dt{color:var(--muted)}
+.trek dd{margin:0;font-weight:600;font-variant-numeric:tabular-nums}
+.trek-foot{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;margin-top:22px}
+.trek-foot .note{margin:0;max-width:62ch}
+/* gallery */
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.gallery figure{margin:0;position:relative;aspect-ratio:4/3;max-width:100%;border-radius:10px;overflow:hidden;background:var(--sky)}
+.gallery figure.big{grid-column:span 2;grid-row:span 2;aspect-ratio:auto}
+.gallery img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.gallery figure:hover img{transform:scale(1.04)}
+.gallery figcaption{position:absolute;left:0;right:0;bottom:0;padding:22px 12px 10px;font-size:.82rem;font-weight:600;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.6))}
+@media(max-width:560px){.gallery figure.big{grid-column:auto;grid-row:auto;aspect-ratio:4/3}}
+@media(prefers-reduced-motion:reduce){.gallery img{transition:none}}
+/* about */
+.about-text p{margin:0 0 14px;max-width:62ch}
+.about-text .lead{font-size:1.1rem}
+.why{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:14px}
+.why li b{display:block}
+.why li span{font-size:.9rem;color:var(--muted)}
+/* contact */
+.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:24px}
+.form .full{grid-column:1/-1}
+@media(max-width:560px){.form{grid-template-columns:minmax(0,1fr)}}
+.err{color:var(--maroon);font-size:.82rem;margin-top:4px}
+.ok{background:var(--saffron-soft);border-radius:8px;padding:14px;font-size:.92rem}
+.contact-side{display:grid;gap:14px;align-content:start}
+.contact-side div{padding:16px 18px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+.contact-side b{display:block;font-size:.78rem;color:var(--muted);font-weight:600;letter-spacing:.04em}
+footer{background:var(--ink);color:var(--wall);padding-block:36px;font-size:.88rem}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.sample{font-size:.78rem;opacity:1;color:var(--line)}
+@media (prefers-reduced-motion:no-preference){.card{transition:transform .2s}.card:hover{transform:translateY(-3px)}}
+.wa-ico{width:1.2em;height:1.2em;flex:none}
+.wa-float{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:10;display:flex;align-items:center;gap:8px;background:#1f9e55;color:#ffffff;font:600 .95rem var(--body);padding:.8rem 1.1rem;border-radius:999px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.wa-float .wa-ico{width:1.6em;height:1.6em}
+.wa-row{display:flex;align-items:center;gap:8px;font-weight:600;color:#1f9e55;text-decoration:none}
+@media(max-width:560px){.wa-float span{display:none}.wa-float{padding:.85rem}}
+footer{padding-bottom:90px}
+</style></head><body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="6" y="14" width="28" height="22" fill="var(--wall)" stroke="var(--maroon)" stroke-width="2"/><rect x="6" y="14" width="28" height="5" fill="var(--maroon)"/><path d="M2 15 L20 5 L38 15" fill="none" stroke="var(--saffron)" stroke-width="3"/><rect x="17" y="26" width="6" height="10" fill="var(--maroon)"/></svg>
+      Yechey Tours Bhutan
+    </a>
+    <button class="menu-toggle" id="menu-toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <ul id="main-menu">
+      <li><a href="#top">Home</a></li>
+      <li><a href="#tours">Tours &amp; Packages</a></li>
+      <li><a href="#destinations">Destinations</a></li>
+      <li><a href="#trekking">Trekking</a></li>
+      <li><a href="#festivals">Bhutan Experiences</a></li>
+      <li><a href="#about">About Us</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a class="btn" href="#contact">Contact / Book Now</a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <svg class="scene" viewBox="0 0 1200 440" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <rect width="1200" height="440" fill="var(--sky)"/>
+    <polygon points="520,440 700,120 760,170 830,90 920,200 1010,140 1200,300 1200,440" fill="var(--hill)"/>
+    <polygon points="808,118 830,90 852,118 838,112 830,120 820,112" fill="var(--wall)"/>
+    <polygon points="990,160 1010,140 1030,160" fill="var(--wall)"/>
+    <polygon points="480,440 640,300 760,350 900,260 1060,330 1200,290 1200,440" fill="var(--hill2)"/>
+    <g transform="translate(800,262)">
+      <rect x="0" y="22" width="150" height="60" fill="var(--wall)"/>
+      <rect x="0" y="22" width="150" height="12" fill="var(--maroon)"/>
+      <polygon points="-12,24 75,0 162,24" fill="var(--saffron)"/>
+      <rect x="50" y="-22" width="50" height="30" fill="var(--wall)"/>
+      <rect x="50" y="-22" width="50" height="8" fill="var(--maroon)"/>
+      <polygon points="42,-20 75,-38 108,-20" fill="var(--saffron)"/>
+      <rect x="20" y="46" width="10" height="12" fill="var(--ink)"/><rect x="50" y="46" width="10" height="12" fill="var(--ink)"/><rect x="90" y="46" width="10" height="12" fill="var(--ink)"/><rect x="120" y="46" width="10" height="12" fill="var(--ink)"/>
+      <rect x="68" y="58" width="14" height="24" fill="var(--maroon)"/>
+    </g>
+    <g stroke="var(--ink)" stroke-width="1.5"><line x1="1080" y1="300" x2="1080" y2="200"/><line x1="1110" y1="296" x2="1110" y2="210"/></g>
+    <rect x="1081" y="202" width="14" height="24" fill="var(--saffron)"/><rect x="1081" y="228" width="14" height="24" fill="var(--maroon)"/>
+    <rect x="1111" y="212" width="14" height="24" fill="var(--pine)"/><rect x="1111" y="238" width="14" height="24" fill="var(--wall)"/>
+    <polygon points="0,440 300,380 620,410 900,370 1200,400 1200,440" fill="var(--pine)"/>
+  </svg>
+  <img class="hero-photo" src="https://images.unsplash.com/photo-1608236475087-615bfbcdf772?auto=format&fit=crop&w=1800&q=40" alt="" onload="this.parentNode.classList.add('has-photo')" onerror="this.remove()">
+  <div class="hero-copy"><div class="wrap" style="width:100%"><div class="hero-text">
+    <div class="eyebrow">Licensed Bhutan tour operator · Thimphu</div>
+    <h1>Discover Bhutan. Experience the Extraordinary</h1>
+    <p>Small-group and private journeys through Bhutan's valleys, dzongs and festivals, with licensed local guides and every permit arranged for you.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="#tours">Browse tours</a><a class="btn ghost" href="#plan">Visa and SDF guide</a></div>
+  </div></div></div>
+</section>
+
+<div class="wrap">
+  <form class="planner" id="planner" aria-label="Find a tour">
+    <div><label for="p-type">Trip style</label><select id="p-type"><option value="all">Any style</option><option value="culture">Culture</option><option value="trek">Trekking</option><option value="festival">Festival</option><option value="nature">Nature</option></select></div>
+    <div><label for="p-days">Length</label><select id="p-days"><option value="0">Any length</option><option value="5">Up to 5 days</option><option value="8">Up to 8 days</option><option value="99">9 days and more</option></select></div>
+    <div><label for="p-month">Month</label><select id="p-month"><option>March</option><option>April</option><option>October</option><option>November</option><option>December</option></select></div>
+    <div><label for="p-people">Travellers</label><input id="p-people" type="number" min="1" max="20" value="2"></div>
+    <button class="btn" type="submit">Find tours</button>
+  </form>
+</div>
+
+<section id="tours">
+  <div class="wrap">
+    <div class="head-row">
+      <div><div class="eyebrow">Tour packages</div><h2>Journeys we run every season</h2></div>
+      <div class="filters" role="group" aria-label="Filter tours">
+        <button class="chip" data-f="all" aria-pressed="true">All</button>
+        <button class="chip" data-f="culture" aria-pressed="false">Culture</button>
+        <button class="chip" data-f="trek" aria-pressed="false">Trekking</button>
+        <button class="chip" data-f="festival" aria-pressed="false">Festival</button>
+        <button class="chip" data-f="nature" aria-pressed="false">Nature</button>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+    <p class="note" id="empty" hidden>No tours match that combination. Try a different style or length.</p>
+    <p class="note">Every tour includes hotels, meals, a licensed guide, a driver and visa arrangements. Ask us for a quote.</p>
+  </div>
+</section>
+
+<div class="kemar"></div>
+
+<section id="trekking">
+  <div class="wrap">
+    <div class="eyebrow">Trekking</div>
+    <h2 style="margin-bottom:24px">Treks through the high Himalaya</h2>
+    <div class="treks">
+      <article class="trek">
+        <span class="grade">Moderate</span>
+        <h3>Druk Path Trek</h3>
+        <p>The classic route from Paro to Thimphu over high ridges, camping beside alpine lakes.</p>
+        <dl><dt>Walking days</dt><dd>5–6</dd><dt>Highest point</dt><dd>about 4,200 m</dd><dt>Best months</dt><dd>Mar–Jun, Sep–Nov</dd></dl>
+      </article>
+      <article class="trek">
+        <span class="grade">Moderate</span>
+        <h3>Dagala Thousand Lakes</h3>
+        <p>A quiet trek in the Thimphu highlands past clusters of lakes and yak herders' camps.</p>
+        <dl><dt>Walking days</dt><dd>5–6</dd><dt>Highest point</dt><dd>about 4,500 m</dd><dt>Best months</dt><dd>Apr–Jun, Sep–Oct</dd></dl>
+      </article>
+      <article class="trek">
+        <span class="grade hard">Challenging</span>
+        <h3>Jomolhari Trek</h3>
+        <p>Up the Paro valley to base camp below sacred Mount Jomolhari, crossing high passes.</p>
+        <dl><dt>Walking days</dt><dd>7–9</dd><dt>Highest point</dt><dd>about 4,900 m</dd><dt>Best months</dt><dd>Apr–May, Sep–Nov</dd></dl>
+      </article>
+      <article class="trek">
+        <span class="grade hard">Very hard</span>
+        <h3>Snowman Trek</h3>
+        <p>One of the toughest treks in the world, through remote Lunana with many passes above 5,000 m.</p>
+        <dl><dt>Walking days</dt><dd>about 25</dd><dt>Highest point</dt><dd>over 5,000 m</dd><dt>Best months</dt><dd>Sep–Oct only</dd></dl>
+      </article>
+    </div>
+    <div class="trek-foot">
+      <p class="note">Every trek includes a licensed guide, cook, camping gear and pack animals. Total trip length adds arrival and sightseeing days. Ask us about fitness and acclimatisation before you book.</p>
+      <a class="btn" href="#tours" id="show-treks">See trekking tours</a>
+    </div>
+  </div>
+</section>
+
+<div class="kemar"></div>
+
+<section id="destinations">
+  <div class="wrap">
+    <div class="eyebrow">Destinations</div>
+    <h2 style="margin-bottom:24px">Valleys you'll visit</h2>
+    <div class="dest">
+      <div><span class="alt">2,250 m</span><h3>Paro</h3><p>Arrival valley, Rinpung Dzong, and the cliffside Taktsang (Tiger's Nest).</p></div>
+      <div><span class="alt">2,320 m</span><h3>Thimphu</h3><p>The capital: Buddha Dordenma, Tashichho Dzong and the weekend market.</p></div>
+      <div><span class="alt">1,250 m</span><h3>Punakha</h3><p>Warm valley where two rivers meet below the grand Punakha Dzong.</p></div>
+      <div><span class="alt">3,000 m</span><h3>Phobjikha</h3><p>Glacial valley where black-necked cranes winter from late October.</p></div>
+      <div><span class="alt">2,600 m</span><h3>Bumthang</h3><p>Spiritual heartland of old temples, buckwheat fields and cheese.</p></div>
+      <div><span class="alt">300 m</span><h3>Phuentsholing</h3><p>Southern border town and the overland gateway from India.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="gallery" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow">Gallery</div>
+    <h2 style="margin-bottom:24px">Moments from our journeys</h2>
+    <div class="gallery">
+      <figure class="big"><img src="https://images.unsplash.com/photo-1608236475087-615bfbcdf772?auto=format&fit=crop&w=900&q=50" alt="Photo from Bhutan: Bhutan" loading="lazy" onerror="this.parentNode.remove()"><figcaption>Bhutan</figcaption></figure>
+      <figure><img src="https://images.unsplash.com/photo-1590580673100-ee7ee687bfa6?auto=format&fit=crop&w=900&q=50" alt="Photo from Bhutan: Cultural Discovery" loading="lazy" onerror="this.parentNode.remove()"><figcaption>Cultural Discovery</figcaption></figure>
+      <figure><img src="https://images.unsplash.com/photo-1637826134825-e54e98a9bce7?auto=format&fit=crop&w=900&q=50" alt="Photo from Bhutan: Paro Tshechu Festival" loading="lazy" onerror="this.parentNode.remove()"><figcaption>Paro Tshechu Festival</figcaption></figure>
+      <figure><img src="https://images.unsplash.com/photo-1545030856-612d5feaf990?auto=format&fit=crop&w=900&q=50" alt="Photo from Bhutan: Druk Path Trek" loading="lazy" onerror="this.parentNode.remove()"><figcaption>Druk Path Trek</figcaption></figure>
+      <figure><img src="https://images.unsplash.com/photo-1662547233877-0f1bb0dfd4b7?auto=format&fit=crop&w=900&q=50" alt="Photo from Bhutan: Crane Valley Escape" loading="lazy" onerror="this.parentNode.remove()"><figcaption>Crane Valley Escape</figcaption></figure>
+      <figure><img src="https://images.unsplash.com/photo-1729176990266-9524f1497bab?auto=format&fit=crop&w=900&q=50" alt="Photo from Bhutan: Heart of Bumthang" loading="lazy" onerror="this.parentNode.remove()"><figcaption>Heart of Bumthang</figcaption></figure>
+      <figure><img src="https://images.unsplash.com/photo-1585904194096-15ef66ccd234?auto=format&fit=crop&w=900&q=50" alt="Photo from Bhutan: Jambay Lhakhang Drup" loading="lazy" onerror="this.parentNode.remove()"><figcaption>Jambay Lhakhang Drup</figcaption></figure>
+      <figure><img src="https://images.unsplash.com/photo-1729174518995-8c4546b3dd53?auto=format&fit=crop&w=900&q=50" alt="Photo from Bhutan: Dagala Thousand Lakes" loading="lazy" onerror="this.parentNode.remove()"><figcaption>Dagala Thousand Lakes</figcaption></figure>
+      <figure><img src="https://images.unsplash.com/photo-1761048167001-a4fb913809a0?auto=format&fit=crop&w=900&q=50" alt="Photo from Bhutan: Southern Gateway" loading="lazy" onerror="this.parentNode.remove()"><figcaption>Southern Gateway</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="festivals" style="padding-top:0">
+  <div class="wrap two">
+    <div>
+      <div class="eyebrow">Festival calendar</div>
+      <h2 style="margin-bottom:20px">Plan around a tshechu</h2>
+      <ul class="fest">
+        <li><div class="when">Feb–Mar</div><div><b>Punakha Drubchen and Tshechu</b><span>Re-enactment of a 17th-century battle, then masked dances.</span></div></li>
+        <li><div class="when">Mar–Apr</div><div><b>Paro Tshechu</b><span>Ends with the dawn unveiling of the giant thongdrel.</span></div></li>
+        <li><div class="when">Sep–Oct</div><div><b>Thimphu Tshechu</b><span>The largest festival, held at Tashichho Dzong.</span></div></li>
+        <li><div class="when">Nov</div><div><b>Black-necked Crane Festival</b><span>Phobjikha's school children celebrate the cranes' return.</span></div></li>
+        <li><div class="when">Nov</div><div><b>Jambay Lhakhang Drup</b><span>Bumthang's famous midnight fire blessing.</span></div></li>
+      </ul>
+      <p class="note">Festival dates follow the Bhutanese lunar calendar and change each year. We confirm exact dates when you enquire.</p>
+    </div>
+    <div class="info" id="plan">
+      <h3>Visa and fees, step by step</h3>
+      <ol>
+        <li>Choose your tour and dates with us.</li>
+        <li>Send a clear passport scan and photo.</li>
+        <li>We apply for your visa and pay the Sustainable Development Fee (SDF) on your behalf.</li>
+        <li>You receive the visa clearance letter before you fly.</li>
+        <li>Your visa is stamped on arrival at Paro or Phuentsholing.</li>
+      </ol>
+      <p class="note" style="margin-top:14px">Indian, Bangladeshi and Maldivian nationals pay a lower SDF and use a permit instead of a visa. SDF rates are set by the government; we quote the current rate with every booking.</p>
+    </div>
+  </div>
+</section>
+
+<div class="kemar"></div>
+
+<section id="about">
+  <div class="wrap two">
+    <div class="about-text">
+      <div class="eyebrow">About us</div>
+      <h2 style="margin-bottom:20px">A local team, born in these valleys</h2>
+      <p class="lead">We are a Bhutanese tour company run by people who grew up here. We plan every trip ourselves and travel with you on the ground.</p>
+      <p>From cultural tours and tshechu festivals to high-altitude treks, we shape each journey around your pace and interests. Our guides are licensed by the Department of Tourism, and our drivers, cooks and trekking crews are people we have worked with for years.</p>
+      <p>Bhutan's "high value, low volume" tourism means fewer crowds and more respect for local life. We keep our groups small so you meet people, not just see places.</p>
+    </div>
+    <div class="info">
+      <h3>Why travel with us</h3>
+      <ul class="why">
+        <li><b>Licensed local guides</b><span>English-speaking guides who know the history behind every dzong.</span></li>
+        <li><b>Visa and SDF handled</b><span>We arrange your visa, permits and fees before you fly.</span></li>
+        <li><b>Private and small groups</b><span>Travel on your own schedule, with no large coach tours.</span></li>
+        <li><b>Help day and night</b><span>Reach us on WhatsApp any time during your trip.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Traveller reviews</div>
+    <h2 style="margin-bottom:24px">What guests tell us</h2>
+    <div class="reviews">
+      <figure><div class="stars" aria-label="5 out of 5">★★★★★</div><blockquote>Our guide timed the Tiger's Nest hike so we reached the top before the crowds. Every detail was handled.</blockquote><figcaption>Sample review · Cultural Discovery, April</figcaption></figure>
+      <figure><div class="stars" aria-label="5 out of 5">★★★★★</div><blockquote>Watching the thongdrel unveiled at dawn in Paro was the high point of our year.</blockquote><figcaption>Sample review · Paro Tshechu tour, March</figcaption></figure>
+      <figure><div class="stars" aria-label="4 out of 5">★★★★☆</div><blockquote>The Druk Path trek was hard but the lake campsites were unforgettable. Great camp crew.</blockquote><figcaption>Sample review · Druk Path Trek, October</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="contact" style="padding-top:0">
+  <div class="wrap two">
+    <div>
+      <div class="eyebrow">Enquiry</div>
+      <h2 style="margin-bottom:20px">Tell us about your trip</h2>
+      <form class="form" id="enquiry" novalidate>
+        <div><label for="e-name">Full name</label><input id="e-name" placeholder="Full Name"><div class="err" id="err-name" hidden>Enter your name.</div></div>
+        <div><label for="e-email">Email</label><input id="e-email" type="email" placeholder="your email address"><div class="err" id="err-email" hidden>Enter a valid email address.</div></div>
+        <div><label for="e-tour">Tour</label><select id="e-tour"></select></div>
+        <div><label for="e-date">Arrival date</label><input id="e-date" type="date"></div>
+        <div class="full"><label for="e-msg">Anything we should know?</label><textarea id="e-msg" rows="4" placeholder="Interests, fitness level, dietary needs"></textarea></div>
+        <div class="full"><button class="btn" type="submit">Send enquiry</button></div>
+        <div class="full ok" id="ok" hidden></div>
+      </form>
+    </div>
+    <div class="contact-side">
+      <div><b>OFFICE</b>Norzin Lam, Thimphu, Bhutan</div>
+      <div><b>WHATSAPP</b><a class="wa-row wa-link" href="#"><svg viewBox="0 0 32 32" aria-hidden="true" class="wa-ico"><path d="M16 3.5C9.1 3.5 3.6 8.9 3.6 15.6c0 2.3.7 4.5 1.9 6.4L3.5 28.5l6.7-1.9c1.8 1 3.8 1.5 5.8 1.5 6.9 0 12.4-5.4 12.4-12.1S22.9 3.5 16 3.5z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M11.6 9.6c.4-.4 1-.4 1.3.1l1.2 2.3c.2.4.1.9-.2 1.2l-.8.8c.8 1.8 2.3 3.3 4.1 4.1l.8-.8c.3-.3.8-.4 1.2-.2l2.3 1.2c.5.3.6.9.2 1.3l-1 1.1c-.7.7-1.7.9-2.6.6-3.6-1.3-6.4-4.1-7.7-7.7-.3-.9-.1-1.9.6-2.6z" fill="currentColor"/></svg><span class="wa-num">+975 17 00 00 00</span></a></div>
+      <div><b>EMAIL</b>sonam.tshewang30@gmail.com</div>
+      <div><b>OFFICE HOURS</b>Mon–Sat, 9 am – 5 pm (BTT)</div>
+    </div>
+  </div>
+</section>
+
+<a class="wa-float wa-link" href="#" aria-label="Chat with us on WhatsApp"><svg viewBox="0 0 32 32" aria-hidden="true" class="wa-ico"><path d="M16 3.5C9.1 3.5 3.6 8.9 3.6 15.6c0 2.3.7 4.5 1.9 6.4L3.5 28.5l6.7-1.9c1.8 1 3.8 1.5 5.8 1.5 6.9 0 12.4-5.4 12.4-12.1S22.9 3.5 16 3.5z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M11.6 9.6c.4-.4 1-.4 1.3.1l1.2 2.3c.2.4.1.9-.2 1.2l-.8.8c.8 1.8 2.3 3.3 4.1 4.1l.8-.8c.3-.3.8-.4 1.2-.2l2.3 1.2c.5.3.6.9.2 1.3l-1 1.1c-.7.7-1.7.9-2.6.6-3.6-1.3-6.4-4.1-7.7-7.7-.3-.9-.1-1.9.6-2.6z" fill="currentColor"/></svg><span>Chat on WhatsApp</span></a>
+<footer>
+  <div class="wrap">
+    <div><span style="font-family:var(--display);font-size:1.2rem">Druk Trails</span><br>Licensed by the Department of Tourism, Bhutan</div>
+    <div class="sample">Sample website. Company, contacts and reviews are placeholders.<br>Photos from Unsplash by Raimond Klavins, Mike Swigunski, Ugyen Tenzin, Darpan, Pema Gyamtsho, Raul Taciu and Rama Krushna Behera.</div>
+  </div>
+</footer>
+
+<script>
+/* ===== EDIT YOUR WHATSAPP NUMBER HERE ===== */
+const WHATSAPP_NUMBER = "97517647743";        /* country code + number, digits only */
+const WHATSAPP_DISPLAY = "+975 17 647743";  /* how the number is shown on the page */
+const WHATSAPP_MESSAGE = "Hello Druk Trails, I'd like to ask about a tour.";
+/* ========================================== */
+document.querySelectorAll('.wa-link').forEach(a=>{a.href='https://wa.me/'+WHATSAPP_NUMBER+'?text='+encodeURIComponent(WHATSAPP_MESSAGE);a.target='_blank';a.rel='noopener';});
+document.querySelectorAll('.wa-num').forEach(e=>e.textContent=WHATSAPP_DISPLAY);
+const tours=[
+ {n:"Cultural Discovery",type:"culture",days:7,route:"Paro · Thimphu · Punakha",best:"Best seller",h:"Tiger's Nest hike, Punakha Dzong, village farmhouse lunch",scene:"dzong",img:"https://images.unsplash.com/photo-1590580673100-ee7ee687bfa6?auto=format&fit=crop&w=900&q=70"},
+ {n:"Paro Tshechu Festival",type:"festival",days:6,route:"Paro · Thimphu",best:"Spring festival",h:"Two festival days and the dawn thongdrel unveiling",scene:"flags",img:"https://images.unsplash.com/photo-1637826134825-e54e98a9bce7?auto=format&fit=crop&w=900&q=70"},
+ {n:"Druk Path Trek",type:"trek",days:9,route:"Paro → Thimphu on foot",best:"Moderate trek",h:"5 days trekking past alpine lakes up to 4,200 m",scene:"peaks",img:"https://images.unsplash.com/photo-1545030856-612d5feaf990?auto=format&fit=crop&w=900&q=70"},
+ {n:"Crane Valley Escape",type:"nature",days:5,route:"Thimphu · Phobjikha",best:"Oct–Feb",h:"Black-necked crane walks and the Gangtey Nature Trail",scene:"valley",img:"https://images.unsplash.com/photo-1662547233877-0f1bb0dfd4b7?auto=format&fit=crop&w=900&q=70"},
+ {n:"Heart of Bumthang",type:"culture",days:10,route:"Paro · Punakha · Bumthang",best:"In depth",h:"Central Bhutan's oldest temples and a cheese-making visit",scene:"dzong",img:"https://images.unsplash.com/photo-1729176990266-9524f1497bab?auto=format&fit=crop&w=900&q=70"},
+ {n:"Southern Gateway",type:"nature",days:4,route:"Phuentsholing · Thimphu · Paro",best:"Overland",h:"Enter by road from India and climb into the hills",scene:"valley",img:"https://images.unsplash.com/photo-1761048167001-a4fb913809a0?auto=format&fit=crop&w=900&q=70"},
+ {n:"Jambay Lhakhang Drup",type:"festival",days:9,route:"Paro · Bumthang",best:"Autumn festival",h:"The midnight fire blessing and Bumthang masked dances",scene:"flags",img:"https://images.unsplash.com/photo-1585904194096-15ef66ccd234?auto=format&fit=crop&w=900&q=70"},
+ {n:"Dagala Thousand Lakes",type:"trek",days:8,route:"Thimphu highlands",best:"Quiet trail",h:"Yak herder camps and views of the Himalayan range",scene:"peaks",img:"https://images.unsplash.com/photo-1729174518995-8c4546b3dd53?auto=format&fit=crop&w=900&q=70"}
+];
+const scenes={
+ dzong:`<rect width="320" height="200" fill="var(--sky)"/><polygon points="0,200 80,90 150,140 230,70 320,130 320,200" fill="var(--hill)"/><rect x="110" y="120" width="100" height="50" fill="var(--wall)"/><rect x="110" y="120" width="100" height="10" fill="var(--maroon)"/><polygon points="100,122 160,100 220,122" fill="var(--saffron)"/><rect x="152" y="145" width="16" height="25" fill="var(--maroon)"/><polygon points="0,200 120,170 320,180 320,200" fill="var(--pine)"/>`,
+ flags:`<rect width="320" height="200" fill="var(--saffron-soft)"/><polygon points="0,200 160,120 320,200" fill="var(--hill)"/><path d="M20 40 Q160 90 300 40" fill="none" stroke="var(--ink)"/>${[0,1,2,3,4,5,6,7].map(i=>`<rect x="${34+i*33}" y="${50+Math.round(Math.sin(i/7*Math.PI)*22)}" width="20" height="26" fill="${['var(--maroon)','var(--saffron)','var(--pine)','var(--wall)','var(--sky)'][i%5]}" stroke="var(--line)"/>`).join('')}<circle cx="160" cy="160" r="22" fill="var(--maroon)"/><circle cx="160" cy="160" r="10" fill="var(--saffron)"/>`,
+ peaks:`<rect width="320" height="200" fill="var(--sky)"/><polygon points="0,200 70,60 130,130 200,30 270,110 320,70 320,200" fill="var(--hill2)"/><polygon points="185,48 200,30 215,48" fill="var(--wall)"/><polygon points="58,78 70,60 82,78" fill="var(--wall)"/><ellipse cx="120" cy="170" rx="60" ry="10" fill="var(--sky)"/><polygon points="230,200 250,160 270,200" fill="var(--saffron)"/>`,
+ valley:`<rect width="320" height="200" fill="var(--sky)"/><polygon points="0,120 90,70 180,110 320,60 320,200 0,200" fill="var(--hill)"/><polygon points="0,200 0,150 160,130 320,150 320,200" fill="var(--pine)"/><g fill="var(--ink)"><path d="M90 60 l8 -4 l8 4 l-8 -2z"/><path d="M130 45 l7 -3 l7 3 l-7 -2z"/><path d="M200 70 l8 -4 l8 4 l-8 -2z"/></g>`
+};
+const grid=document.getElementById('grid'),empty=document.getElementById('empty');
+let fType='all',fDays=0;
+function render(){
+ const list=tours.filter(t=>(fType==='all'||t.type===fType)&&(fDays===0||(fDays===99?t.days>=9:t.days<=fDays)));
+ grid.innerHTML=list.map(t=>`<article class="card"><div class="pic"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${scenes[t.scene]}</svg>${t.img?`<img src="${t.img}" alt="${t.n}" loading="lazy" onerror="this.remove()">`:''}<span class="tag">${t.best}</span></div><div class="body"><div class="route">${t.route}</div><h3>${t.n}</h3><div class="meta"><span>${t.days} days / ${t.days-1} nights</span><span>${t.type[0].toUpperCase()+t.type.slice(1)}</span></div><p style="margin:2px 0 0;font-size:.9rem;color:var(--muted)">${t.h}</p><div class="foot"><span class="route">Private or small group</span><button data-tour="${t.n}">Enquire →</button></div></div></article>`).join('');
+ empty.hidden=list.length>0;
+}
+function setType(v){fType=v;document.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.f===v));}
+document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{setType(c.dataset.f);render();}));
+document.getElementById('planner').addEventListener('submit',e=>{e.preventDefault();setType(document.getElementById('p-type').value);fDays=+document.getElementById('p-days').value;render();document.getElementById('tours').scrollIntoView({behavior:'smooth'});});
+grid.addEventListener('click',e=>{const b=e.target.closest('button[data-tour]');if(!b)return;document.getElementById('e-tour').value=b.dataset.tour;document.getElementById('contact').scrollIntoView({behavior:'smooth'});});
+document.getElementById('e-tour').innerHTML=tours.map(t=>`<option>${t.n}</option>`).join('')+'<option>Custom trip</option>';
+render();
+const f=document.getElementById('enquiry');
+['e-name','e-email'].forEach(id=>document.getElementById(id).addEventListener('input',()=>{document.getElementById('err-'+id.slice(2)).hidden=true;}));
+f.addEventListener('submit',e=>{e.preventDefault();const name=document.getElementById('e-name').value.trim(),email=document.getElementById('e-email').value.trim();let ok=true;
+ if(!name){document.getElementById('err-name').hidden=false;ok=false;}
+ if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){document.getElementById('err-email').hidden=false;ok=false;}
+ if(!ok)return;const box=document.getElementById('ok');box.hidden=false;box.textContent=`Thanks, ${name}. This is a sample site, so nothing was sent. On a live site, your enquiry about "${document.getElementById('e-tour').value}" would go to the booking team.`;});
+</script>
+<script>
+/* ===== "See trekking tours" button picks the Trekking filter ===== */
+(function(){
+  var b=document.getElementById('show-treks'), chip=document.querySelector('.chip[data-f="trek"]');
+  if(b&&chip) b.addEventListener('click',function(){chip.click();});
+})();
+/* ===== MAIN MENU: phone open/close ===== */
+(function(){
+  var t=document.getElementById('menu-toggle'), m=document.getElementById('main-menu');
+  function close(){m.classList.remove('open');t.classList.remove('open');t.setAttribute('aria-expanded','false');}
+  t.addEventListener('click',function(){var o=m.classList.toggle('open');t.classList.toggle('open',o);t.setAttribute('aria-expanded',o);});
+  m.querySelectorAll('a').forEach(function(a){a.addEventListener('click',close);});
+})();
+</script>
+</body></html>
